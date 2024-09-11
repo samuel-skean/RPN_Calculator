@@ -1,0 +1,7 @@
+- Add variables! Until we have loops, there's no difference between immutable and shadowing, I think.
+- Make it as streaming as possible, including backing up and doing as little as possible when doing that.
+- Make a simple egui-based gui. Highlight different kinds of tokens in different colors. Ideally, also support the terminal.
+- Support bigass numbers, decimals, and floating points.
+- Warn user about unrepresentable floats. If necessary, convert them to Decimal. Can that actually fix all the problems?
+- How fancy can this language get without *any* parentheses? (I hate parentheses)
+- Do macros become very useful to make the code involve less repetition? My idea was to use macros to annotate the enum variants for the tokens.
