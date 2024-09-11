@@ -1,6 +1,7 @@
 use super::{lexer::Lexer, StateFn, Token};
 
-const DIGITS: &str = "0123456789";
+const DIGITS: &str = "0123456789ABCDEF";
+const DEC_DIGITS: &str = "0123456789";
 const HEX_PREFIX: &str = "0x";
 const OCT_PREFIX: &str = "0";
 const BIN_PREFIX: &str = "0b";
@@ -11,7 +12,7 @@ pub fn lex_general(l: &mut Lexer<Token>) -> Option<StateFn> {
             l.emit(Token::Minus);
         } else if l.accept_first_prefix(&["plus", "+"]) {
             l.emit(Token::Plus);
-        } else if DIGITS.contains(l.peek()) {
+        } else if DEC_DIGITS.contains(l.peek()) {
             return Some(StateFn(lex_number));
         }
         l.accept_run(" \t\n");
@@ -32,7 +33,10 @@ pub fn lex_number(l: &mut Lexer<Token>) -> Option<StateFn> {
 }
 
 fn lex_digits<const PREFIX_LEN: usize, const RADIX: u32>(l: &mut Lexer<Token>) -> Option<StateFn> {
-    l.accept_run(DIGITS);
+    // TODO: Test this. This should allow having digits and then identifiers
+    // right after, as long as the identifiers start with something that isn't
+    // valid for the number literal that's started.
+    l.accept_run(&DIGITS[0..(RADIX as usize)]);
     l.emit(Token::Number(
         i64::from_str_radix(&l.current_match()[PREFIX_LEN..], RADIX).unwrap(),
     ));

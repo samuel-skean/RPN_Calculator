@@ -71,7 +71,7 @@ impl<T> Lexer<T> {
         false
     }
 
-    pub fn accept_first_prefix<'a>(&mut self, prefix_set: &[&'a str]) -> bool {
+    pub fn accept_first_prefix(&mut self, prefix_set: &[&str]) -> bool {
         for prefix in prefix_set {
             if self.accept_prefix(prefix) {
                 return true;
